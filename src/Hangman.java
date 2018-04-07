@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
@@ -21,11 +22,17 @@ public class Hangman implements KeyListener
 	Random r = new Random();
 	int random;
 	
+	int currentNum = 1;
+	
+	int numLives = 9;
+	JLabel Lives = new JLabel();
+	
 	JLabel text = new JLabel();
 	
 	String word = new String();
 	String underscore = new String();
 	String IWord = new String();
+	String IWordC = new String();
 
 	
 	ArrayList<String> words = new ArrayList<String>();
@@ -55,8 +62,9 @@ public class Hangman implements KeyListener
 	
 	public void createUI() {
 
-		NumWordsS = JOptionPane.showInputDialog("Input a number");
-		numWords = Integer.parseInt(NumWordsS);
+		//NumWordsS = JOptionPane.showInputDialog("Input a number");
+		//numWords = Integer.parseInt(NumWordsS);
+		numWords = 2999;
 		
 		
 		try {
@@ -76,11 +84,12 @@ public class Hangman implements KeyListener
 			e.printStackTrace();
 		}
 		
-		
-		
-		
 		frame.setVisible(true);
 		panel.setVisible(true);
+		Lives.setVisible(true);
+		
+		Lives.setText(Integer.toString(numLives));
+		Lives.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		
 		frame.setSize(500, 100);
 
@@ -95,6 +104,7 @@ public class Hangman implements KeyListener
 		
 		
 		panel.add(text);
+		panel.add(Lives);
 
 	}
 	
@@ -120,32 +130,71 @@ public class Hangman implements KeyListener
 	public void keyTyped(KeyEvent e) {
 		
 		int keyPressed = e.getKeyChar();
-		if (keyPressed == KeyEvent.VK_SPACE) {
+		if ((keyPressed == KeyEvent.VK_SPACE)) 
+		{
+			
+			if(currentNum == numWords)
+			{
+				
+			}
+			else
+			{
+			numLives = 9;
+			Lives.setText(Integer.toString(numLives));
 			word = wordsR.pop();
 			underscore = "";
 			IWord = "";
 			underscore = under(underscore, word);
+			IWord = underscore;
+			
+			currentNum +=1; 
 
 			System.out.println(word);
 			text.setText(underscore);
-			
+			}
 		}
-		for(int j = 0; j < word.length(); j++) {
-		if(keyPressed == word.charAt(j))
+		
+		else
 		{
-			if(IWord.equals(""))
+			IWordC = IWord;
+			for(int i = 0; i < word.length(); i++)
 			{
-			
-			IWord = underscore.substring(0, j) + word.charAt(j) + underscore.substring(j, word.length());
-			text.setText(IWord);
+				if(word.charAt(i) == keyPressed)
+				{
+					IWord = IWord.substring(0, i) + word.charAt(i) + IWord.substring(i + 1, word.length());
+					text.setText(IWord);
+				}
 			}
-			else
+			if(IWordC.equals(IWord))
 			{
+				numLives -= 1;
+				Lives.setText(Integer.toString(numLives));
 				
-				IWord = IWord.substring(0, j) + word.charAt(j) + IWord.substring(j, word.length() - 1);
-				text.setText(IWord);
 			}
+			
+			
 		}
+		
+		if(numLives <= 0)
+		{
+			frame.dispose();
+			
+		}
+		
+		if(IWord.equals(word))
+		{
+			numLives = 9;
+			Lives.setText(Integer.toString(numLives));
+			word = wordsR.pop();
+			underscore = "";
+			IWord = "";
+			underscore = under(underscore, word);
+			IWord = underscore;
+			
+			currentNum +=1; 
+
+			System.out.println(word);
+			text.setText(underscore);
 		}
 		
 	}
