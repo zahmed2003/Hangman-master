@@ -17,6 +17,7 @@ public class Hangman implements KeyListener
 	JPanel panel = new JPanel();
 	
 	int numWords;
+	int wordsCorrect = 0;
 	String NumWordsS;
 	
 	Random r = new Random();
@@ -64,7 +65,7 @@ public class Hangman implements KeyListener
 
 		//NumWordsS = JOptionPane.showInputDialog("Input a number");
 		//numWords = Integer.parseInt(NumWordsS);
-		numWords = 2999;
+		numWords = 3000;
 		
 		
 		try {
@@ -119,7 +120,7 @@ public class Hangman implements KeyListener
 	{
 		for(int i = 0; i < word.length(); i++)
 		{
-			underscore = underscore + " _";
+			underscore = underscore + "_";
 		}
 		return underscore;
 
@@ -177,6 +178,7 @@ public class Hangman implements KeyListener
 		
 		if(numLives <= 0)
 		{
+			JOptionPane.showMessageDialog(null, "You got " + wordsCorrect + " words correct.");
 			frame.dispose();
 			
 		}
@@ -192,6 +194,7 @@ public class Hangman implements KeyListener
 			IWord = underscore;
 			
 			currentNum +=1; 
+			wordsCorrect +=1;
 
 			System.out.println(word);
 			text.setText(underscore);
