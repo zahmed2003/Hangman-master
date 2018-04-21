@@ -111,8 +111,15 @@ public class Hangman implements KeyListener
 	
 	public void createUI2()
 	{
+		numLives = 9;
+		Lives.setText(Integer.toString(numLives));
 		word = wordsR.pop();
+		underscore = "";
+		IWord = "";
 		underscore = under(underscore, word);
+		IWord = underscore;
+
+		System.out.println(word);
 		text.setText(underscore);
 	}
 	
@@ -178,7 +185,7 @@ public class Hangman implements KeyListener
 		
 		if(numLives <= 0)
 		{
-			JOptionPane.showMessageDialog(null, "You got " + wordsCorrect + " words correct.");
+			JOptionPane.showMessageDialog(null, "The correct word was " + word + ". You got " + wordsCorrect + " words correct.");
 			frame.dispose();
 			
 		}
